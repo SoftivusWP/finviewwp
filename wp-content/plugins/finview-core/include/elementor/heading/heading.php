@@ -1,0 +1,724 @@
+<?php
+
+namespace TPCore\Widgets;
+
+use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
+use \Elementor\Utils;
+use \Elementor\Control_Media;
+
+use \Elementor\Group_Control_Border;
+use \Elementor\Group_Control_Box_Shadow;
+use \Elementor\Group_Control_Text_Shadow;
+use \Elementor\Group_Control_Typography;
+use \Elementor\Core\Schemes\Typography;
+use \Elementor\Group_Control_Background;
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
+/**
+ * Tp Core
+ *
+ * Elementor widget for hello world.
+ *
+ * @since 1.0.0
+ */
+class TP_Heading extends Widget_Base
+{
+
+    /**
+     * Retrieve the widget name.
+     *
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     * @return string Widget name.
+     */
+    public function get_name()
+    {
+        return 'tp-heading';
+    }
+
+    /**
+     * Retrieve the widget title.
+     *
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     * @return string Widget title.
+     */
+    public function get_title()
+    {
+        return __('Heading', 'tpcore');
+    }
+
+    /**
+     * Retrieve the widget icon.
+     *
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     * @return string Widget icon.
+     */
+    public function get_icon()
+    {
+        return 'tp-icon';
+    }
+
+    /**
+     * Retrieve the list of categories the widget belongs to.
+     *
+     * Used to determine where to display the widget in the editor.
+     *
+     * Note that currently Elementor supports only one category.
+     * When multiple categories passed, Elementor uses the first one.
+     *
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     * @return array Widget categories.
+     */
+    public function get_categories()
+    {
+        return ['tpcore'];
+    }
+
+    /**
+     * Retrieve the list of scripts the widget depended on.
+     *
+     * Used to set scripts dependencies required to run the widget.
+     *
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     * @return array Widget scripts dependencies.
+     */
+    public function get_script_depends()
+    {
+        return ['tpcore'];
+    }
+
+    /**
+     * Register the widget controls.
+     *
+     * Adds different input fields to allow the user to change and customize the widget settings.
+     *
+     * @since 1.0.0
+     *
+     * @access protected
+     */
+    protected function register_controls()
+    {
+
+
+        //Heading Section
+        $this->start_controls_section(
+            'finview_heading_one_section_genaral',
+            [
+                'label' => esc_html__('Heading', 'finview-core')
+            ]
+        );
+
+        $this->add_control(
+            'finview_heading_content_style_selection',
+            [
+                'label'   => esc_html__('Select Style', 'finview-core'),
+                'type'    => Controls_Manager::SELECT,
+                'options' => [
+                    'style_one' => esc_html__('Style One (col-8)', 'finview-core'),
+                    'style_two' => esc_html__('Style Two (col-12)', 'finview-core'),
+                    'style_three' => esc_html__('Style Three (col-6)', 'finview-core'),
+                ],
+                'default' => 'style_one',
+            ]
+        );
+
+
+        $this->add_responsive_control(
+            'finview_heading_content_align',
+            [
+                'label'         => esc_html__('Heading Text Align', 'finview-core'),
+                'type'             => \Elementor\Controls_Manager::CHOOSE,
+                'options'         => [
+                    'left'         => [
+                        'title' => esc_html__('Left', 'finview-core'),
+                        'icon'     => 'eicon-text-align-left',
+                    ],
+                    'center'     => [
+                        'title' => esc_html__('Center', 'finview-core'),
+                        'icon'     => 'eicon-text-align-center',
+                    ],
+                    'right'     => [
+                        'title' => esc_html__('Right', 'finview-core'),
+                        'icon'     => 'eicon-text-align-right',
+                    ],
+                    'justify'     => [
+                        'title' => esc_html__('Justified', 'finview-core'),
+                        'icon'     => 'eicon-text-align-justify',
+                    ],
+                ],
+                'default'         => 'center',
+                'selectors'     => [
+                    '{{WRAPPER}} .section__head' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .section__header' => 'text-align: {{VALUE}};',
+                ],
+
+            ]
+        );
+
+        $this->add_control(
+            'title_img_reborn_show',
+            [
+                'label' => esc_html__('Hide Subtitle Image?', 'finview-core'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Show', 'finview-core'),
+                'label_off' => esc_html__('Hide', 'finview-core'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'subtitle_img_reborn_icon',
+            [
+                'label' => esc_html__('Icon', 'finview-core'),
+                'type' => \Elementor\Controls_Manager::ICONS,
+                'default' => [
+                    'value' => 'fa-solid fa-star',
+                    'library' => 'solid',
+                ],
+                'condition' => [
+                    'title_img_reborn_show' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'finview_heading_content_subtitle',
+            [
+                'label' => esc_html__('Subtitle', 'finview-core'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__('Default Subtitle', 'finview-core'),
+                'placeholder' => esc_html__('Type your subtitle here', 'finview-core'),
+                'label_block' => true,
+            ]
+        );
+
+        $this->add_control(
+            'finview_heading_content_title',
+            [
+                'label' => esc_html__('Title', 'finview-core'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__('Section Title', 'finview-core'),
+                'placeholder' => esc_html__('Type your title here', 'finview-core'),
+                'label_block' => true,
+            ]
+        );
+
+        $this->add_control(
+            'gameplex_content_style',
+            [
+                'label'   => esc_html__('Font Size', 'finview-core'),
+                'type'    => Controls_Manager::SELECT,
+                'options' => [
+                    'style_d_one_xl' => esc_html__('Display One xl', 'finview-core'),
+                    'style_d_one' => esc_html__('Display One', 'finview-core'),
+                    'style_d_two' => esc_html__('Display Two', 'finview-core'),
+                    'style_d_three' => esc_html__('Display Three', 'finview-core'),
+                    'style_d_four' => esc_html__('Display Four', 'finview-core'),
+                    'style_one' => esc_html__('h1', 'finview-core'),
+                    'style_two' => esc_html__('h2', 'finview-core'),
+                    'style_three' => esc_html__('h3', 'finview-core'),
+                ],
+                'default' => 'style_two',
+                'condition' => [
+                    'finview_heading_content_title!' => '',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'finview_heading_content_description',
+            [
+                'label' => esc_html__('Short Description', 'finview-core'),
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'rows' => 10,
+                'default' => esc_html__('Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas doloribus provident assumenda quidem. Minus quia doloribus.', 'finview-core'),
+                'placeholder' => esc_html__('Type your description here', 'finview-core'),
+            ]
+        );
+
+        $this->add_responsive_control(
+            'selected_class',
+            [
+                'label'   => esc_html__('Font Size', 'finview-core'),
+                'type'    => Controls_Manager::SELECT,
+                'options' => [
+                    'fs_3xl' => esc_html__('32px', 'finview-core'),
+                    'fs_2xl' => esc_html__('24px', 'finview-core'),
+                    'fs_xl' => esc_html__('20px', 'finview-core'),
+                    'fs_lg' => esc_html__('18px', 'finview-core'),
+                    'fs_base' => esc_html__('16px', 'finview-core'),
+                    'fs_sm' => esc_html__('14px', 'finview-core'),
+                    'fs_xs' => esc_html__('12px', 'finview-core'),
+                ],
+                'condition' => [
+                    'finview_heading_content_description!' => '',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // ======================= Heading Style =================================//
+
+        // Subtitle 
+        $this->start_controls_section(
+            'subtitle_style',
+            [
+                'label' => esc_html__('Subtitle', 'plugin-name'),
+                'tab'   => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'label'    => esc_html__('Typography', 'plugin-name'),
+                'name'     => 'subtitle_style_typ',
+                'selector' => '{{WRAPPER}} .sub-title',
+
+            ]
+        );
+
+        $this->add_control(
+            'subtitle_svgstyle_color',
+            [
+                'label'     => esc_html__('icon Color', 'plugin-name'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .sub-title svg path' => 'fill: {{VALUE}};',
+                ],
+            ]
+        );
+        // Icon Size
+        $this->add_responsive_control(
+            'subtitle_icon_custom_dimensionsss',
+            [
+                'label' => esc_html__('Icon Size', 'golftio-core'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range' => [
+                    'px' => [
+                        'min' => 1,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => 1,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .sub-title i' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .sub-title svg' => 'width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+
+        $this->add_control(
+            'subtitle_style_color',
+            [
+                'label'     => esc_html__('Color', 'plugin-name'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .sub-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_responsive_control(
+            'subtitle_style_margin',
+            [
+                'label' => esc_html__('Margin', 'plugin-name'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .sub-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'subtitle_style_padding',
+            [
+                'label'      => __('Padding', 'plugin-name'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors'  => [
+                    '{{WRAPPER}} .sub-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
+                ]
+            ]
+        );
+
+
+        $this->end_controls_section();
+
+        // Title 
+        $this->start_controls_section(
+            'title_style',
+            [
+                'label' => esc_html__('Title', 'plugin-name'),
+                'tab'   => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'label'    => esc_html__('Typography', 'plugin-name'),
+                'name'     => 'title_style_typ',
+                'selector' => '{{WRAPPER}} .title',
+
+            ]
+        );
+
+        $this->add_control(
+            'title_style_color',
+            [
+                'label'     => esc_html__('Color', 'plugin-name'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_responsive_control(
+            'title_style_margin',
+            [
+                'label' => esc_html__('Margin', 'plugin-name'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'title_style_padding',
+            [
+                'label'      => __('Padding', 'plugin-name'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors'  => [
+                    '{{WRAPPER}} .title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
+                ]
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Description
+        $this->start_controls_section(
+            'description_style',
+            [
+                'label' => esc_html__('Description', 'plugin-name'),
+                'tab'   => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'label'    => esc_html__('Typography', 'plugin-name'),
+                'name'     => 'description_style_typ',
+                'selector' => '{{WRAPPER}} .pp',
+
+            ]
+        );
+
+        $this->add_control(
+            'description_style_color',
+            [
+                'label'     => esc_html__('Color', 'plugin-name'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .pp' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_responsive_control(
+            'description_style_margin',
+            [
+                'label' => esc_html__('Margin', 'plugin-name'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .pp' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'description_style_padding',
+            [
+                'label'      => __('Padding', 'plugin-name'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors'  => [
+                    '{{WRAPPER}} .pp' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
+                ]
+            ]
+        );
+
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Render the widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @since 1.0.0
+     *
+     * @access protected
+     */
+    protected function render()
+    {
+        $settings = $this->get_settings_for_display();
+
+?>
+
+
+
+
+        <?php if ($settings['finview_heading_content_style_selection'] == 'style_one') : ?>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-9 col-xxl-8">
+                        <div class="section__head">
+                            <?php if (!empty($settings['finview_heading_content_subtitle'])) :   ?>
+                                <span class="sub-title section__header-sub-title headingFour wow fadeInDown" data-wow-duration="0.8s">
+                                    <?php if (!empty($settings['title_img_reborn_show'])) :   ?>
+                                        <?php \Elementor\Icons_Manager::render_icon($settings['subtitle_img_reborn_icon'], ['aria-hidden' => 'true']); ?>
+                                    <?php endif ?>
+                                    <?php echo wp_kses($settings['finview_heading_content_subtitle'], wp_kses_allowed_html('post')) ?></span>
+                            <?php endif ?>
+                            <?php if (!empty($settings['finview_heading_content_title'])) :   ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_one_xl') : ?>
+                                    <h2 class="title display-1xl section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_one') : ?>
+                                    <h2 class="title display-1 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_two') : ?>
+                                    <h2 class="title display-2 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_three') : ?>
+                                    <h2 class="title display-3 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_four') : ?>
+                                    <h2 class="title display-4 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_one') : ?>
+                                    <h1 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h1>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_two') : ?>
+                                    <h2 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_three') : ?>
+                                    <h3 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h3>
+                                <?php endif ?>
+                            <?php endif ?>
+                            <?php if (!empty($settings['finview_heading_content_description'])) :   ?>
+                                <?php $additional_class = '';
+                                switch ($settings['selected_class']) {
+                                    case 'fs_xs':
+                                        $additional_class = 'fs-xs';
+                                        break;
+                                    case 'fs_sm':
+                                        $additional_class = 'fs-sm';
+                                        break;
+                                    case 'fs_base':
+                                        $additional_class = 'fs-base';
+                                        break;
+                                    case 'fs_lg':
+                                        $additional_class = 'fs-lg';
+                                        break;
+                                    case 'fs_xl':
+                                        $additional_class = 'fs-xl';
+                                        break;
+                                    case 'fs_2xl':
+                                        $additional_class = 'fs-2xl';
+                                        break;
+                                    case 'fs_3xl':
+                                        $additional_class = 'fs-3xl';
+                                        break;
+                                    default:
+                                        $additional_class = 'fs_base'; // Fallback class
+                                }
+                                ?>
+                                <p class="xlr pp section__header-content <?php echo esc_attr($additional_class); ?> wow fadeInDown" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_description'], wp_kses_allowed_html('post'))  ?></p>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
+
+
+        <?php if ($settings['finview_heading_content_style_selection'] == 'style_two') : ?>
+            <div class="section__head">
+                <?php if (!empty($settings['finview_heading_content_subtitle'])) :   ?>
+                    <span class="sub-title section__header-sub-title headingFour wow fadeInDown" data-wow-duration="0.8s">
+                        <?php if (!empty($settings['title_img_reborn_show'])) :   ?>
+                            <?php \Elementor\Icons_Manager::render_icon($settings['subtitle_img_reborn_icon'], ['aria-hidden' => 'true']); ?>
+                        <?php endif ?>
+                        <?php echo wp_kses($settings['finview_heading_content_subtitle'], wp_kses_allowed_html('post')) ?></span>
+                <?php endif ?>
+                <?php if (!empty($settings['finview_heading_content_title'])) :   ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_d_one_xl') : ?>
+                        <h2 class="title display-1xl section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                    <?php endif ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_d_one') : ?>
+                        <h2 class="title display-1 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                    <?php endif ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_d_two') : ?>
+                        <h2 class="title display-2 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                    <?php endif ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_d_three') : ?>
+                        <h2 class="title display-3 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                    <?php endif ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_d_four') : ?>
+                        <h2 class="title display-4 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                    <?php endif ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_one') : ?>
+                        <h1 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h1>
+                    <?php endif ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_two') : ?>
+                        <h2 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                    <?php endif ?>
+                    <?php if ($settings['gameplex_content_style'] == 'style_three') : ?>
+                        <h3 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h3>
+                    <?php endif ?>
+                <?php endif ?>
+                <?php if (!empty($settings['finview_heading_content_description'])) :   ?>
+                    <?php $additional_class = '';
+                    switch ($settings['selected_class']) {
+                        case 'fs_xs':
+                            $additional_class = 'fs-xs';
+                            break;
+                        case 'fs_sm':
+                            $additional_class = 'fs-sm';
+                            break;
+                        case 'fs_base':
+                            $additional_class = 'fs-base';
+                            break;
+                        case 'fs_lg':
+                            $additional_class = 'fs-lg';
+                            break;
+                        case 'fs_xl':
+                            $additional_class = 'fs-xl';
+                            break;
+                        case 'fs_2xl':
+                            $additional_class = 'fs-2xl';
+                            break;
+                        case 'fs_3xl':
+                            $additional_class = 'fs-3xl';
+                            break;
+                        default:
+                            $additional_class = 'fs_base'; // Fallback class
+                    }
+                    ?>
+                    <p class="xlr pp section__header-content <?php echo esc_attr($additional_class); ?> wow fadeInDown" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_description'], wp_kses_allowed_html('post'))  ?></p>
+                <?php endif ?>
+            </div>
+        <?php endif ?>
+
+        <?php if ($settings['finview_heading_content_style_selection'] == 'style_three') : ?>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-7 col-xxl-6">
+                        <div class="section__header">
+                            <?php if (!empty($settings['finview_heading_content_subtitle'])) :   ?>
+                                <span class="sub-title section__header-sub-title headingFour wow fadeInDown" data-wow-duration="0.8s">
+                                    <?php if (!empty($settings['title_img_reborn_show'])) :   ?>
+                                        <?php \Elementor\Icons_Manager::render_icon($settings['subtitle_img_reborn_icon'], ['aria-hidden' => 'true']); ?>
+                                    <?php endif ?>
+                                    <?php echo wp_kses($settings['finview_heading_content_subtitle'], wp_kses_allowed_html('post')) ?></span>
+                            <?php endif ?>
+                            <?php if (!empty($settings['finview_heading_content_title'])) :   ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_one_xl') : ?>
+                                    <h2 class="title display-1xl section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_one') : ?>
+                                    <h2 class="title display-1 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_two') : ?>
+                                    <h2 class="title display-2 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_three') : ?>
+                                    <h2 class="title display-3 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_d_four') : ?>
+                                    <h2 class="title display-4 section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_one') : ?>
+                                    <h1 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h1>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_two') : ?>
+                                    <h2 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h2>
+                                <?php endif ?>
+                                <?php if ($settings['gameplex_content_style'] == 'style_three') : ?>
+                                    <h3 class="title section__header-title wow fadeInUp" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_title'], wp_kses_allowed_html('post'))  ?></h3>
+                                <?php endif ?>
+                            <?php endif ?>
+                            <?php if (!empty($settings['finview_heading_content_description'])) :   ?>
+                                <?php $additional_class = '';
+                                switch ($settings['selected_class']) {
+                                    case 'fs_xs':
+                                        $additional_class = 'fs-xs';
+                                        break;
+                                    case 'fs_sm':
+                                        $additional_class = 'fs-sm';
+                                        break;
+                                    case 'fs_base':
+                                        $additional_class = 'fs-base';
+                                        break;
+                                    case 'fs_lg':
+                                        $additional_class = 'fs-lg';
+                                        break;
+                                    case 'fs_xl':
+                                        $additional_class = 'fs-xl';
+                                        break;
+                                    case 'fs_2xl':
+                                        $additional_class = 'fs-2xl';
+                                        break;
+                                    case 'fs_3xl':
+                                        $additional_class = 'fs-3xl';
+                                        break;
+                                    default:
+                                        $additional_class = 'fs_base'; // Fallback class
+                                }
+                                ?>
+                                <p class="xlr pp section__header-content <?php echo esc_attr($additional_class); ?> wow fadeInDown" data-wow-duration="0.8s"><?php echo wp_kses($settings['finview_heading_content_description'], wp_kses_allowed_html('post'))  ?></p>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
+
+<?php
+    }
+}
+
+$widgets_manager->register(new TP_Heading());

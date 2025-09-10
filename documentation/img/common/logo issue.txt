@@ -1,0 +1,6 @@
+Thank you for reaching out, and I apologize for any inconvenience this may have caused. We always keep a backup before resetting any website. I’m glad you were able to log back in with the saved credentials.
+
+Regarding the logo issue, I appreciate your patience. The instructions you followed are for the default WordPress header settings, but the correct path to customize the logo with your theme is actually through Appearance > Customize > Finview Customizer > Header Settings. Please try uploading your logo there, and it should appear correctly.
+
+Let me know if you encounter any further issues, and I’m happy to assist you further.
+

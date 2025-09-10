@@ -1,0 +1,236 @@
+form.loancomparison_form {
+    background: transparent !important;
+}
+
+.custom_loancomparison {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+}
+
+.custom_loancomparison .bank_box {
+    padding: 24px;
+    margin: 0;
+    display: flex !important;
+    gap: 32px;
+    background: var(--woo-card-bg);
+    box-shadow: var(--woo-shadow3);
+    border-radius: var(--woo-box-radius1);
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.custom_loancomparison .bank_box .interest_badge {
+    /* z-index: -1; */
+    font-size: 12px;
+    color: #13203B;
+    font-weight: 500;
+    font-family: "Jost", sans-serif;
+    background: #FCB650;
+    padding: 1px 40px;
+    -webkit-clip-path: polygon(100% 0, 100% 100%, 0% 100%, 7% 50%, 0% 0%);
+    clip-path: polygon(100% 0, 100% 100%, 0% 100%, 7% 50%, 0% 0%);
+    position: absolute;
+    top: 0;
+    right: -4px;
+}
+
+.custom_loancomparison .bank_logo {
+    display: flex;
+    padding: 9px 14px;
+    border: var(--woo-border-3);
+    border-radius: var(--woo-box-radius1);
+    height: 62px;
+    width: 100%;
+}
+
+
+
+.custom_loancomparison .bank_logo a {
+    margin: auto;
+}
+
+.custom_loancomparison .showrating {
+    max-width: fit-content;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.custom_loancomparison .count_reviews {
+    margin-top: 4px;
+}
+
+.custom_loancomparison .bank_logo a img {
+    height: 43px;
+    width: 95px !important;
+    object-fit: cover;
+}
+
+.custom_loancomparison .logo_rating {
+    display: flex;
+    flex-direction: column;
+    /* gap: 16px; */
+    justify-content: center;
+    align-items: center;
+    border: var(--woo-border-3);
+    padding: 12px;
+    border-radius: var(--woo-box-radius1);
+    min-width: 150px;
+    max-width: 150px;
+}
+
+/* .custom_loancomparison>.logo_rating {
+    flex: 1;
+} */
+.custom_loancomparison .bank_box .cus_repay {
+    width: auto;
+    max-width: 351px;
+    margin: auto;
+}
+
+.custom_loancomparison .bank_box .cus_repay {}
+
+.custom_loancomparison .bank_details_area {
+    display: flex;
+    gap: 8px;
+    padding: 9px 14px;
+    border: var(--woo-border-3);
+    border-radius: var(--woo-box-radius1);
+    /* height: 62px; */
+    /* width: 100%; */
+}
+
+.custom_loancomparison .bank_details_area .bank_details {
+    /* display: flex; */
+    /* padding: 9px 14px;
+    border: var(--woo-border-3);
+    height: 62px; */
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+    white-space: nowrap;
+    border-radius: var(--woo-box-radius1);
+    border: var(--woo-border-4);
+    background: var(--woo-primary-bg-opa2);
+    padding: 16px 32px;
+    width: 100%;
+    justify-content: center;
+}
+
+.custom_loancomparison .cus_btn_area {
+    max-width: fit-content;
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.custom_loancomparison .cus_btn_area .bank_inside .review {
+    font-weight: 500;
+    color: var(--woo-primary-color);
+}
+
+.custom_loancomparison .bank_apply a {
+    padding: 12px 24px !important;
+}
+
+.custom_loancomparison .terms_condition {
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+@media (max-width: 1399px) {
+    .custom_loancomparison .bank_box {
+        gap: 20px;
+    }
+
+    .custom_loancomparison .terms_condition {
+        white-space: unset;
+    }
+
+    .custom_loancomparison .bank_details_area {
+        padding: 8px;
+    }
+
+    .custom_loancomparison .bank_details_area .bank_details {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 1199px) {
+    .custom_loancomparison .bank_box {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .custom_loancomparison .cus_btn_area {
+        width: 23%;
+    }
+
+    .custom_loancomparison .bank_box .cus_repay {
+        width: auto;
+        max-width: 60%;
+    }
+
+    .custom_loancomparison .bank_details_area {
+        padding: 8px;
+        justify-content: space-between;
+        width: 74%;
+    }
+}
+
+@media (max-width: 991px) {
+    .custom_loancomparison .bank_details_area {
+        width: 72%;
+    }
+
+    .custom_loancomparison .bank_box {
+        justify-content: normal;
+    }
+
+    .custom_loancomparison .bank_details_area .bank_details {
+        align-items: center;
+    }
+    .loancomparison_sliders .loancomparison-range{
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .custom_loancomparison .cus_btn_area {
+        width: auto;
+    }
+
+    .custom_loancomparison .bank_details_area {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 575px) {
+    .custom_loancomparison .bank_details_area {
+        flex-wrap: wrap;
+        flex: 1;
+    }
+
+    .custom_loancomparison .bank_box .cus_repay {
+        max-width: 57%;
+    }
+    .bank_details span, .bank_details b{
+        width: auto;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .custom_loancomparison .cus_btn_area,
+    .custom_loancomparison .bank_details_area,
+    .custom_loancomparison .bank_box .cus_repay {
+        max-width: 100%;
+    }
+}
