@@ -66,7 +66,11 @@ class TP_OCDI_Demo_Importer
         update_option('page_on_front', $front_page->ID);
         update_option('page_for_posts', $blog_page->ID);
 
-
+        // Elementor settings fix — enable all CPTs
+        $cpts = get_post_types(array('public' => true), 'names');
+        update_option('elementor_cpt_support', array_values($cpts));
+        update_option('elementor_disable_color_schemes', 'yes');
+        update_option('elementor_disable_typography_schemes', 'yes');
     }
     private function update_permalinks()
     {
